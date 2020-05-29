@@ -2836,3 +2836,46 @@
 2020-05-29 08:47:07,253 django.server INFO     "GET /static/environment/img/red.png HTTP/1.1" 304 0
 2020-05-29 08:47:09,811 django.server INFO     "GET /static/environment/routing/routing-icon.png HTTP/1.1" 304 0
 2020-05-29 08:47:16,700 django.server WARNING  "GET /static/environment/css/img/bubble-bg.png HTTP/1.1" 404 1725
+2020-05-29 10:41:09,137 django.utils.autoreload INFO     Watching for file changes with StatReloader
+2020-05-29 10:41:43,870 django.security.DisallowedHost ERROR    Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS.
+2020-05-29 10:41:47,352 django.security.DisallowedHost ERROR    Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS.
+2020-05-29 10:41:47,644 django.request WARNING  Bad Request: /
+2020-05-29 10:41:47,679 django.server WARNING  "GET / HTTP/1.1" 400 72089
+2020-05-29 10:41:48,243 django.request WARNING  Bad Request: /admin/
+2020-05-29 10:41:48,250 django.server WARNING  "GET /admin/ HTTP/1.1" 400 72315
+2020-05-29 10:42:13,901 django.server INFO     "GET / HTTP/1.1" 200 7530
+2020-05-29 10:42:14,219 django.server INFO     "GET /static/leaflet/leaflet.css HTTP/1.1" 200 14286
+2020-05-29 10:42:14,333 django.server INFO     "GET /static/environment/css/small.css HTTP/1.1" 200 709
+2020-05-29 10:42:14,406 django.server INFO     "GET /static/leaflet/leaflet.js HTTP/1.1" 200 139643
+2020-05-29 10:42:14,441 django.server INFO     "GET /static/environment/group/leaflet.groupedlayercontrol.min.css HTTP/1.1" 200 206
+2020-05-29 10:42:14,446 django.server INFO     "GET /static/environment/css/main.css HTTP/1.1" 200 702
+2020-05-29 10:42:14,520 django.server INFO     "GET /static/leaflet/leaflet.extras.js HTTP/1.1" 200 8292
+2020-05-29 10:42:14,529 django.server INFO     "GET /static/environment/group/leaflet.groupedlayercontrol.min.js HTTP/1.1" 200 6020
+2020-05-29 10:42:14,594 django.server INFO     "GET /static/environment/routing/leaflet-routing-machine.css HTTP/1.1" 200 6186
+2020-05-29 10:42:14,646 django.server INFO     "GET /static/environment/dist/leaflet.ajax.js HTTP/1.1" 200 15586
+2020-05-29 10:42:14,828 django.server INFO     "GET /static/environment/routing/leaflet-routing-machine.min.js HTTP/1.1" 200 564710
+2020-05-29 10:42:20,746 django.server WARNING  "GET /static/environment/css/img/bubble-bg.png HTTP/1.1" 404 1725
+2020-05-29 10:42:21,933 django.server INFO     "GET /static/leaflet/images/layers.png HTTP/1.1" 200 696
+2020-05-29 10:42:21,941 django.server INFO     "GET /static/leaflet/images/reset-view.png HTTP/1.1" 200 159
+2020-05-29 10:42:22,333 django.server INFO     "GET /incidence/ HTTP/1.1" 200 255
+2020-05-29 10:42:22,466 django.server INFO     "GET /static/environment/img/red.png HTTP/1.1" 200 2473
+2020-05-29 10:42:29,786 django.server INFO     "GET /country/ HTTP/1.1" 200 988046
+2020-05-29 10:42:30,472 django.server INFO     "GET /admin/ HTTP/1.1" 302 0
+2020-05-29 10:42:31,204 django.server INFO     "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1914
+2020-05-29 10:42:31,965 django.server INFO     "GET /static/admin/css/login.css HTTP/1.1" 200 1233
+2020-05-29 10:42:31,981 django.server INFO     "GET /static/admin/css/responsive.css HTTP/1.1" 200 18052
+2020-05-29 10:42:31,992 django.server INFO     "GET /static/admin/css/base.css HTTP/1.1" 200 16378
+2020-05-29 10:42:32,236 django.server INFO     "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+2020-05-29 10:42:32,485 django.server INFO     "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+2020-05-29 10:42:32,551 django.server INFO     "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+2020-05-29 10:42:56,028 django.server INFO     "POST /admin/login/?next=/admin/ HTTP/1.1" 200 2075
+2020-05-29 10:42:56,236 django.server INFO     "GET /static/admin/css/base.css HTTP/1.1" 304 0
+2020-05-29 10:42:56,240 django.server INFO     "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+2020-05-29 10:42:56,245 django.server INFO     "GET /static/admin/css/login.css HTTP/1.1" 304 0
+2020-05-29 10:42:57,563 django.server INFO     "GET /static/admin/css/fonts.css HTTP/1.1" 304 0
+2020-05-29 10:42:57,893 django.server INFO     "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 304 0
+2020-05-29 10:43:06,864 django.server INFO     "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+2020-05-29 10:43:07,396 django.server INFO     "GET /admin/ HTTP/1.1" 200 5516
+2020-05-29 10:43:08,034 django.server INFO     "GET /static/admin/css/dashboard.css HTTP/1.1" 200 412
+2020-05-29 10:43:09,196 django.server INFO     "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+2020-05-29 10:43:09,214 django.server INFO     "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380

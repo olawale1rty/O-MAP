@@ -9,17 +9,8 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import dotenv
+
 import os
-
-
-from os.path import join, dirname
-from dotenv import load_dotenv
-import dj_database_url
-# Create .env file path
-dotenv_path = join(dirname(__file__), '../.env')
-# Load file from the path.
-load_dotenv(dotenv_path)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,7 +25,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '1b#j8*#@%(1(w@*&e5ny9#mw(6k%3)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['o-map.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['o-map.herokuapp.com','127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -97,11 +88,11 @@ WSGI_APPLICATION = 'gis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT')
+        'NAME': 'geoApp',
+        'USER': 'postgres',
+        'HOST': 'localhost',
+        'PASSWORD': 'ayomidetwice',
+        'PORT': '5432'
     }
 }
 
@@ -205,7 +196,7 @@ LOGGING = {
     },
 }
 
-
+import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
