@@ -1,0 +1,51 @@
+body{
+    background: url(img/bubble-bg.png);
+    background-color: black;
+    width: 100%;
+    margin: 0px auto;
+    
+}
+
+#gis {
+	width: 90%;	
+	height: 75%;
+}
+
+#head {
+	color: black;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	height: 40px;
+	transform: translate(-50%,-50%);
+	background: white;
+	
+	
+}
+
+#find-me {
+	color: blue;
+	background: white;
+	padding: 3px;
+	cursor: pointer;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	height: 40px;
+	transform: translate(-50%,-50%);
+	border: 3px solid black;
+}
+#status {
+	color: blue;
+	background: white;
+	padding: 3px;
+	cursor: pointer;
+	position: fixed;
+	top: 15%;
+	left: 80%;
+	transform: translate(-50%,-50%);
+	
+}
+
+
+

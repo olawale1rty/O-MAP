@@ -1,0 +1,40 @@
+body{
+    background: url(img/bubble-bg.png);
+    margin: 0;
+    padding: 0;
+    background-color: black;
+  	font-family: 'Open Sans', arial, sans-serif;
+  	background-size: cover;
+	/*background-position: center;
+  	background-attachment: fixed;*/
+ 
+
+}
+
+#gis {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		width: 700px;
+		height: 90%;
+		background: white;
+		padding: 50px;
+		border-radius: 30px;
+		border: 3px solid blue;	
+		box-sizing: border-box;
+		box-shadow: 0 15px 25px rgba(0,0,0,.8);
+	}
+
+#head {
+	color: white;
+	padding-left: 25px;
+}
+
+#find-me {
+	color: blue;
+	background: white;
+	padding: 3px;
+	cursor: pointer;
+
+}

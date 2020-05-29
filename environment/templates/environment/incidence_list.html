@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	{% load leaflet_tags %}
+	{% leaflet_css %}
+	{% leaflet_js %}
+	<meta charset="utf-8">
+	<title>O-MAP | Mapping at the core</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'environment/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'environment/css/small.css' %}" media="(max-width: 630px)">
+    
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'environment/routing/leaflet-routing-machine.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'environment/group/leaflet.groupedlayercontrol.min.css' %}">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script type="text/javascript" src="{% static 'environment/dist/leaflet.ajax.js' %}"></script>
+	<script type="text/javascript" src="{% static 'environment/group/leaflet.groupedlayercontrol.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'environment/routing/leaflet-routing-machine.min.js' %}"></script>
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+</head>
+<body>
+	<div id="head">
+	<h1>O-MAP</h1>
+	<p id = "status"></p>
+	<button id = "find-me">Show my location</button>
+	</div>
+	<script type="text/javascript">
+		function out_layers(map, options){
+
+	// Controls 
+
+	var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	});
+	var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+		maxZoom: 17,
+		attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+	});
+
+	var datasets = new L.GeoJSON.AJAX('{% url 'country' %}',{
+		style: function colors(feature){
+			switch(feature.properties.counties){
+				case "WAJIR":
+					return{
+						color: "orange",
+						fillOpacity: 0.8,
+					};
+				break;
+				case "ISIOLO":
+					return{
+						color: "red",
+						fillOpacity: 0.8,
+					};
+				break;
+			};
+		},
+		onEachFeature: function (feature, layer) {
+			layer.bindPopup(feature.properties.counties.toString());
+		}
+	});
+
+	var points = new L.GeoJSON.AJAX('{% url 'incidence' %}',{
+		pointToLayer: function (feature, latlng) {
+	    return L.marker(latlng, {
+	        icon: L.icon({
+	            iconUrl: "{% static 'environment/img/red.png' %}",
+	            iconSize: [24, 28],
+	            iconAnchor: [12, 28],
+	            popupAnchor: [0, -25]
+	        }),
+	        title: feature.properties.name,
+	        riseOnHover: true,
+	    });
+	},
+		onEachFeature: function (feature, layer) {
+			layer.bindPopup(feature.properties.name.toString())					
+		}
+	});
+
+	datasets.addTo(map);
+	points.addTo(map);
+
+	var baseLayers = {
+		"OSM": osm,
+		"OpenTopoMap": OpenTopoMap
+	};
+
+	var groupedOverlays = {
+		"Layers": {
+			"counties": datasets,
+			"incidences": points
+		}
+	};
+
+	L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
+
+	// routing
+
+
+	var ReversablePlan = L.Routing.Plan.extend({
+	    createGeocoders: function() {
+	        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
+	            reverseButton = createButton('↑↓', container);
+	            L.DomEvent.on(reverseButton, 'click', function() { 
+	            	var waypoints = this.getWaypoints(); 
+	            	this.setWaypoints(waypoints.reverse()); }, this);
+	        return container;
+	    }
+	});
+
+	var plan = new ReversablePlan([
+	    L.latLng(),
+	    L.latLng()
+	], {
+	    geocoder: L.Control.Geocoder.nominatim(),
+	    routeWhileDragging: true,
+	});
+
+
+
+	L.Control.geocoder().addTo(map);
+
+	control = L.Routing.control({
+	    routeWhileDragging: true,
+	    plan: plan,
+	    router: L.Routing.mapbox('pk.eyJ1Ijoib2xheHRlY2giLCJhIjoiY2thbno5MTY4MWo1cjJzdGR0aXQ2cHNpaCJ9.rtIXYlifIhQmLZZYWR2ATw'),
+	    collapsible: true,
+	}).addTo(map); 
+
+
+	function createButton(label, container) {
+	    var btn = L.DomUtil.create('button', '', container);
+	    btn.setAttribute('type', 'button');
+	    btn.innerHTML = label;
+	    return btn;
+	};
+
+	map.on('click', function(e) {
+	    var container = L.DomUtil.create('div'),
+	        startBtn = createButton('Start from this location', container),
+	        destBtn = createButton('Go to this location', container);
+
+	    L.popup()
+	        .setContent(container)
+	        .setLatLng(e.latlng)
+	        .openOn(map);
+
+	    L.DomEvent.on(startBtn, 'click', function() {
+	        control.spliceWaypoints(0, 1, e.latlng);
+	        map.closePopup();
+	    });
+
+	    L.DomEvent.on(destBtn, 'click', function() {
+	        control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+	        map.closePopup();
+	    });
+	});	
+
+
+	//geolocation
+	function geoFindMe() {
+
+	  const status = document.querySelector('#status');
+	  const mapLink = document.querySelector('#map-link');
+
+	  
+
+	  function success(position) {
+	    const latitude  = position.coords.latitude;
+	    const longitude = position.coords.longitude;
+
+	    status.textContent = '';
+	    var markers = new L.FeatureGroup();
+		map.addLayer(markers);
+		var marker = L.marker([latitude, longitude]).addTo(markers);
+	    map.fitBounds(markers.getBounds());
+	    alert(`Your location is: Latitude: ${latitude} °, Longitude: ${longitude} °`);
+	  }
+
+	  function error() {
+	    alert('Unable to retrieve your location');
+	    status.textContent = '';
+	  }
+
+	  if(!navigator.geolocation) {
+	    status.textContent = 'Geolocation is not supported by your browser';
+	  } else {
+	    status.textContent = 'Locating…';
+	    navigator.geolocation.getCurrentPosition(success, error);
+	  }
+
+	}
+
+	document.querySelector('#find-me').addEventListener('click', geoFindMe);			
+};
+	</script>
+	{% leaflet_map 'gis' callback="window.out_layers" %}
+</body>
+</html>
