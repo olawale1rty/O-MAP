@@ -118,6 +118,17 @@
 	    L.latLng(),
 	    L.latLng()
 	], {
+		createMarker: function(i, wp) {
+			return L.marker(wp.latLng, {
+				draggable: true,
+				icon: L.icon({
+		            iconUrl: "{% static 'environment/img/green.png' %}",
+		            iconSize: [24, 28],
+		            iconAnchor: [12, 28],
+		            popupAnchor: [0, -25]
+		        })
+			});
+		},
 	    geocoder: L.Control.Geocoder.nominatim(),
 	    routeWhileDragging: true,
 	});
@@ -131,8 +142,22 @@
 	    plan: plan,
 	    router: L.Routing.mapbox('pk.eyJ1Ijoib2xheHRlY2giLCJhIjoiY2thbno5MTY4MWo1cjJzdGR0aXQ2cHNpaCJ9.rtIXYlifIhQmLZZYWR2ATw'),
 	    collapsible: true,
-	}).addTo(map); 
+	})
+	.addTo(map) 
+	.on('routingerror', function(e) {
+		try {
+			map.getCenter();
+		} catch (e) {
+			map.fitBounds(L.latLngBounds([
+	    L.latLng(),
+	    L.latLng()
+	]));
+		}
 
+		handleError(e);
+	});
+
+	
 
 	function createButton(label, container) {
 	    var btn = L.DomUtil.create('button', '', container);
@@ -178,7 +203,14 @@
 	    status.textContent = '';
 	    var markers = new L.FeatureGroup();
 		map.addLayer(markers);
-		var marker = L.marker([latitude, longitude]).addTo(markers);
+		var marker = L.marker([latitude, longitude], {
+	        icon: L.icon({
+	            iconUrl: "{% static 'environment/img/green.png' %}",
+	            iconSize: [24, 28],
+	            iconAnchor: [12, 28],
+	            popupAnchor: [0, -25]
+	        }),
+	        }).addTo(markers);
 	    map.fitBounds(markers.getBounds());
 	    alert(`Your location is: Latitude: ${latitude} °, Longitude: ${longitude} °`);
 	  }
@@ -197,7 +229,9 @@
 
 	}
 
-	document.querySelector('#find-me').addEventListener('click', geoFindMe);			
+	document.querySelector('#find-me').addEventListener('click', geoFindMe);	
+
+	L.Routing.errorControl(control).addTo(map);		
 };
 	</script>
 	{% leaflet_map 'gis' callback="window.out_layers" %}
