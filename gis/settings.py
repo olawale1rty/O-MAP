@@ -142,7 +142,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'environment/static/environment')
 STATIC_URL = '/static/'
 
 # gdal location
-#GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal300'
+# GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal300'
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
 GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
@@ -152,7 +152,7 @@ LEAFLET_CONFIG = {
     'DEFAULT_ZOOM': 3,
     'MAX_ZOOM': 20,
     'MIN_ZOOM': 3,
-    'ATTRIBUTION_PREFIX': 'Inspired by Curiosity',
+    'ATTRIBUTION_PREFIX': 'O-MAP',
 }
 
 

@@ -133,10 +133,32 @@
 	    routeWhileDragging: true,
 	});
 
+	var geocoder = L.Control.geocoder({
+        defaultMarkGeocode: false,
+        showResultIcons: true,
+    })
+    .on('markgeocode', function(e) {
+     var markers = new L.FeatureGroup();
+		map.addLayer(markers);
+		var marker = L.marker(e.geocode.center, {
+	        icon: L.icon({
+	            iconUrl: "{% static 'environment/img/green.png' %}",
+	            iconSize: [24, 28],
+	            iconAnchor: [12, 28],
+	            popupAnchor: [0, -25]
+	        }),
+	        title: e.geocode.name,
+	        riseOnHover: true,
+	        }).bindTooltip(e.geocode.name,
+	        {
+	        	permanent: false,
+	        	direction: 'center'
+	        }).addTo(markers);
+	    map.fitBounds(markers.getBounds());
+    })
+    .addTo(map);
 
-
-	L.Control.geocoder().addTo(map);
-
+	
 	control = L.Routing.control({
 	    routeWhileDragging: true,
 	    plan: plan,
